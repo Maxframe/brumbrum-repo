@@ -61,12 +61,17 @@ export default {
             routeCoords = turf.cleanCoords(turf.lineString(coordinates));
             globalMap = map;
             setCameraPosition(map, routeCoords, distance);
+            let positionMarker = new mapboxgl.Marker();
+            updateMarker(positionMarker, routeCoords, distance);
+            positionMarker.addTo(map);
             window.onkeydown = function(event){
                 if (event.code == "ArrowUp"){
                     console.log("pressed");
                     moveAlong(globalMap, routeCoords);
+                    updateMarker(positionMarker, routeCoords, distance);
                 } else if (event.code == "ArrowDown") {
                     moveBack(globalMap, routeCoords);
+                    updateMarker(positionMarker, routeCoords, distance);
                 }
 
                 
@@ -84,6 +89,11 @@ function setCameraPosition(map, routeLineString, distanceTravelled){
     camera.position = getCameraPos(routeLineString, distanceTravelled);
     camera.lookAtPoint(getLookAt(routeLineString, distanceTravelled));
     map.setFreeCameraOptions(camera);
+}
+
+function updateMarker(marker, routeLineString, distanceTravelled){
+    let lngLat = getLookAt(routeLineString, distanceTravelled);
+    marker.setLngLat([lngLat.lng, lngLat.lat]);
 }
 
 function moveAlong(map, routeLineString){
