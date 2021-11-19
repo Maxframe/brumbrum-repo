@@ -134,10 +134,3 @@ function getCameraPos(routeLineString, distanceTravelled){
 </script>
 
 <style src="mapbox-gl/dist/mapbox-gl.css"></style>
-<style>
-   #map {
-    position: fixed;
-    height: 95vh;
-    width: 100vw;
-  } 
-</style>

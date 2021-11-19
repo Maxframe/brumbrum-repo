@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Homeee</h1>
+    <Testlayout></Testlayout>
     <Map></Map>
   </div>
 </template>
@@ -8,18 +8,21 @@
 <script>
 // @ is an alias to /src
 import Map from '@/components/Map.vue'
+import Testlayout from '@/components/Testlayout.vue'
 
 export default {
   name: 'Home',
   components: {
-    Map
+    Map, Testlayout
   }
 }
 </script>
 
 <style>
-body{
-  margin: 0;
-  padding: 0;
+.home {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 </style>
