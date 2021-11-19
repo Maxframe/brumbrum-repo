@@ -9,8 +9,8 @@ import mapboxgl from 'mapbox-gl';
 import getCoordinatesFromGpxFile from "@/modules/gpx-utilities.js";
 import * as turf from '@turf/turf';
 
-const CAMERA_ALTITUDE = 1400;
-const CAMERA_DISTANCE_BACK = 500;
+const CAMERA_ALTITUDE = 1000;
+const CAMERA_DISTANCE_BACK = 300;
 let routeCoords;
 let distance = 0;
 let globalMap;
@@ -27,7 +27,8 @@ export default {
             bearing: 270,
             center: [8.182855, 46.878608],
             zoom: 17,
-            pitch: 85
+            pitch: 85,
+            interactive: false
         });
 
         let coordinates;
@@ -43,7 +44,7 @@ export default {
                     }
                 }
             });
-            console.log("loaded")
+
             map.addLayer({
                 id: "route",
                 type: "line",
@@ -59,8 +60,17 @@ export default {
             });
             routeCoords = turf.cleanCoords(turf.lineString(coordinates));
             globalMap = map;
-            moveAlongLoop();
+            setCameraPosition(map, routeCoords, distance);
+            window.onkeydown = function(event){
+                if (event.code == "ArrowUp"){
+                    console.log("pressed");
+                    moveAlong(globalMap, routeCoords);
+                } else if (event.code == "ArrowDown") {
+                    moveBack(globalMap, routeCoords);
+                }
 
+                
+            }
         
         });
     
@@ -68,6 +78,7 @@ export default {
     }
 }
 
+// calls the helper functions and fills the camera in the map
 function setCameraPosition(map, routeLineString, distanceTravelled){
     const camera = map.getFreeCameraOptions();
     camera.position = getCameraPos(routeLineString, distanceTravelled);
@@ -75,14 +86,17 @@ function setCameraPosition(map, routeLineString, distanceTravelled){
     map.setFreeCameraOptions(camera);
 }
 
-function moveAlongLoop(){
-    setCameraPosition(globalMap, routeCoords, distance);
+function moveAlong(map, routeLineString){
     distance += 5;
-
-    requestAnimationFrame(moveAlongLoop);
+    setCameraPosition(map, routeLineString, distance);
 }
 
+function moveBack(map, routeLineString){
+    distance -= 5;
+    setCameraPosition(map, routeLineString, distance);
+}
 
+// interpolates along the root and returns the proper coordinates
 function getLookAt(routeLineString, distanceTravelled){
     let cameraCoord = turf.along(routeLineString, distanceTravelled, {units: 'meters'}).geometry.coordinates;
     return { lng: cameraCoord[0], lat: cameraCoord[1]};
@@ -90,13 +104,16 @@ function getLookAt(routeLineString, distanceTravelled){
 
 function getCameraPos(routeLineString, distanceTravelled){
     let distanceAlong;
+    // we can't go backwards outside the route so we wait until the distanceTravelled is greater than Distance back
     if (distanceTravelled <= CAMERA_DISTANCE_BACK){
         distanceAlong = 1;
     } else {
         distanceAlong = distanceTravelled - CAMERA_DISTANCE_BACK;
     }
-    console.log(distanceTravelled + " " + distanceAlong)
+
+    //interpolate along route
     const cameraCoord = turf.along(routeLineString, distanceAlong, {units: 'meters'}).geometry.coordinates;
+    // create the proper form of coordinates
     return mapboxgl.MercatorCoordinate.fromLngLat(
         {
             lng: cameraCoord[0],
@@ -109,6 +126,7 @@ function getCameraPos(routeLineString, distanceTravelled){
 <style src="mapbox-gl/dist/mapbox-gl.css"></style>
 <style>
    #map {
+    position: fixed;
     height: 95vh;
     width: 100vw;
   } 
