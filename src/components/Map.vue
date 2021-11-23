@@ -12,6 +12,7 @@ import * as turf from '@turf/turf';
 const CAMERA_ALTITUDE = 1000;
 const CAMERA_DISTANCE_BACK = 300;
 let routeCoords;
+let camCoords;
 let distance = 0;
 let globalMap;
 
@@ -33,7 +34,7 @@ export default {
 
         let coordinates;
         map.on("load", async function () {
-            coordinates = await getCoordinatesFromGpxFile("../assets/incompleteTrack.gpx");
+            coordinates = await getCoordinatesFromGpxFile("route");
             map.addSource("route", {
                 type: "geojson",
                 data: {
@@ -44,7 +45,7 @@ export default {
                     }
                 }
             });
-
+            let camRaw = await getCoordinatesFromGpxFile("camera");
             map.addLayer({
                 id: "route",
                 type: "line",
@@ -59,22 +60,22 @@ export default {
                 }
             });
             routeCoords = turf.cleanCoords(turf.lineString(coordinates));
+            console.log(routeCoords);
+            camCoords = turf.cleanCoords(turf.lineString(camRaw));
             globalMap = map;
-            setCameraPosition(map, routeCoords, distance);
+            setCameraPosition(map, routeCoords, camCoords, distance);
             let positionMarker = new mapboxgl.Marker();
             updateMarker(positionMarker, routeCoords, distance);
             positionMarker.addTo(map);
             window.onkeydown = function(event){
                 if (event.code == "ArrowUp"){
                     console.log("pressed");
-                    moveAlong(globalMap, routeCoords);
+                    moveAlong(globalMap, routeCoords, camCoords);
                     updateMarker(positionMarker, routeCoords, distance);
                 } else if (event.code == "ArrowDown") {
-                    moveBack(globalMap, routeCoords);
+                    moveBack(globalMap, routeCoords, camCoords);
                     updateMarker(positionMarker, routeCoords, distance);
-                }
-
-                
+                }                
             }
         
         });
@@ -84,9 +85,9 @@ export default {
 }
 
 // calls the helper functions and fills the camera in the map
-function setCameraPosition(map, routeLineString, distanceTravelled){
+function setCameraPosition(map, routeLineString, camRouteLineString, distanceTravelled){
     const camera = map.getFreeCameraOptions();
-    camera.position = getCameraPos(routeLineString, distanceTravelled);
+    camera.position = getCameraPos(camRouteLineString, distanceTravelled);
     camera.lookAtPoint(getLookAt(routeLineString, distanceTravelled));
     map.setFreeCameraOptions(camera);
 }
@@ -96,14 +97,14 @@ function updateMarker(marker, routeLineString, distanceTravelled){
     marker.setLngLat([lngLat.lng, lngLat.lat]);
 }
 
-function moveAlong(map, routeLineString){
-    distance += 5;
-    setCameraPosition(map, routeLineString, distance);
+function moveAlong(map, routeLineString, camRouteLineString){
+    distance += 10;
+    setCameraPosition(map, routeLineString, camRouteLineString, distance);
 }
 
-function moveBack(map, routeLineString){
-    distance -= 5;
-    setCameraPosition(map, routeLineString, distance);
+function moveBack(map, routeLineString, camRouteLineString){
+    distance -= 10;
+    setCameraPosition(map, routeLineString, camRouteLineString, distance);
 }
 
 // interpolates along the root and returns the proper coordinates
