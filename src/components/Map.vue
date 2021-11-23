@@ -9,8 +9,9 @@ import mapboxgl from 'mapbox-gl';
 import getCoordinatesFromGpxFile from "@/modules/gpx-utilities.js";
 import * as turf from '@turf/turf';
 
-const CAMERA_ALTITUDE = 1000;
-const CAMERA_DISTANCE_BACK = 300;
+const CAMERA_ALTITUDE = 1300;
+const STEP_LENGTH = 0.0003;
+const CAMERA_DISTANCE_BACK = 50*STEP_LENGTH;
 let routeCoords;
 let camCoords;
 let distance = 0;
@@ -59,6 +60,7 @@ export default {
                     "line-width": 8
                 }
             });
+
             routeCoords = turf.cleanCoords(turf.lineString(coordinates));
             console.log(routeCoords);
             camCoords = turf.cleanCoords(turf.lineString(camRaw));
@@ -98,32 +100,34 @@ function updateMarker(marker, routeLineString, distanceTravelled){
 }
 
 function moveAlong(map, routeLineString, camRouteLineString){
-    distance += 10;
+    distance += STEP_LENGTH;
     setCameraPosition(map, routeLineString, camRouteLineString, distance);
 }
 
 function moveBack(map, routeLineString, camRouteLineString){
-    distance -= 10;
+    distance -= STEP_LENGTH;
     setCameraPosition(map, routeLineString, camRouteLineString, distance);
 }
 
 // interpolates along the root and returns the proper coordinates
 function getLookAt(routeLineString, distanceTravelled){
-    let cameraCoord = turf.along(routeLineString, distanceTravelled, {units: 'meters'}).geometry.coordinates;
+
+    let cameraCoord = turf.along(routeLineString, turf.lineDistance(routeLineString)* distanceTravelled).geometry.coordinates;
     return { lng: cameraCoord[0], lat: cameraCoord[1]};
 }
 
 function getCameraPos(routeLineString, distanceTravelled){
     let distanceAlong;
+    console.log(CAMERA_DISTANCE_BACK);
     // we can't go backwards outside the route so we wait until the distanceTravelled is greater than Distance back
     if (distanceTravelled <= CAMERA_DISTANCE_BACK){
-        distanceAlong = 1;
+        distanceAlong = STEP_LENGTH;
     } else {
         distanceAlong = distanceTravelled - CAMERA_DISTANCE_BACK;
     }
 
     //interpolate along route
-    const cameraCoord = turf.along(routeLineString, distanceAlong, {units: 'meters'}).geometry.coordinates;
+    const cameraCoord = turf.along(routeLineString, turf.lineDistance(routeLineString)* distanceAlong).geometry.coordinates;
     // create the proper form of coordinates
     return mapboxgl.MercatorCoordinate.fromLngLat(
         {
