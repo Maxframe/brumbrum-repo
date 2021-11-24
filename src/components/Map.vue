@@ -14,6 +14,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 const CAMERA_ALTITUDE = 1300;
 const STEP_LENGTH = 0.0003;
 const CAMERA_DISTANCE_BACK = 50*STEP_LENGTH;
+let previousMarkerIndex = -1;
 let routeCoords;
 let camCoords;
 let distance = 0;
@@ -28,7 +29,13 @@ Offroad: 46.91724, 8.11731
 der Fall: 46.98443, 8.06942
 Ende Gelände 47.02399,8.13162
 */
-const testMarker = [[8.183884366314318, 46.87901792155232]];
+const testMarker = [
+    [8.2449, 46.89865, true],
+    [8.183789855919457, 46.878998082489225, true],
+    [8.18279849017183, 46.87857932727404, false],
+    [8.17897355737293, 46.87974564465177, false],
+    [8.14582, 46.87977, true],
+    [8.1265, 46.89304, true]];
 
 export default {
     name: 'Map',
@@ -85,58 +92,104 @@ export default {
             positionMarker.addTo(map);
             createStoryMarkers(map, testMarker);
 
-            // window.onkeydown = function(event){
-            //     if (event.code == "ArrowUp"){
-            //         moveAlong(globalMap, routeCoords, camCoords);
-            //         updateMarker(positionMarker, routeCoords, distance);
-            //     } else if (event.code == "ArrowDown") {
-            //         moveBack(globalMap, routeCoords, camCoords);
-            //         updateMarker(positionMarker, routeCoords, distance);
-            //     }                
-            // }
             gsap.timeline({
                 scrollTrigger: {
                     trigger: '#map',
                     start: "top top",
-                    end: "30000vh",
-                    scrub: 0.5,
+                    end: "70000vh",
+                    scrub: 1,
                     onUpdate: self => {
-                        if (self.direction > 0){
-                            moveAlong(globalMap, routeCoords, camCoords, self.progress);
-                        } else {
-                            moveBack(globalMap, routeCoords, camCoords, self.progress);
-                        }
-                        if (checkIfPosOnMarker(routeCoords, self.progress)){
-                            console.log("hit it!");
-                        }
-                        updateMarker(positionMarker, routeCoords, self.progress);
+                        update(self, positionMarker);
                     }
                 }
-            })
-
+            });
         });
-    
-    
     }
 }
+
+function update(scrollTrigger, positionMarker){
+    if (scrollTrigger.direction > 0){
+        moveAlong(globalMap, routeCoords, camCoords, scrollTrigger.progress);
+    } else {
+        moveBack(globalMap, routeCoords, camCoords, scrollTrigger.progress);
+    }
+    if (checkIfPosOnMarker(routeCoords, scrollTrigger.progress)){
+        handleMarkerHit(routeCoords, scrollTrigger.progress);
+    }
+    updateMarker(positionMarker, routeCoords, scrollTrigger.progress);
+}
+
+function handleMarkerHit(routeLineString, progress){
+    let idx = getCloseMarkerIdx(routeLineString, progress);
+    if (idx < 0){
+        console.error("close marker not found");
+        return;
+    }
+
+    console.log("new Index:" + idx + "previous index" + previousMarkerIndex);
+    if (previousMarkerIndex < 0){
+        // handle first scroll
+        console.log("first Marker");
+        previousMarkerIndex = idx;
+        return;
+    }
+
+    if (idx > previousMarkerIndex){
+        // next Image, or Video
+        previousMarkerIndex = idx;
+        console.log("next Marker");
+        return;
+    }
+
+    if (idx < previousMarkerIndex){
+        previousMarkerIndex = idx;
+        console.log("previous Marker");
+        return;
+        // previous Image
+    }
+    /* 
+        markerIndex
+        Index kleiner oder Grösser als vorheriger Marker?
+        anhand von dem Section wechseln
+    */
+}
+
 function roundCoordinate(coordPart){
-    let MULTIPLY_FACT = 1000
+    let MULTIPLY_FACT = 1000;
     return Math.round(coordPart * MULTIPLY_FACT)/ MULTIPLY_FACT;
 }
 
 function compareCoords(coord1, coord2){
     return ((roundCoordinate(coord1[0]) == roundCoordinate(coord2[0])) && (roundCoordinate(coord1[1]) == roundCoordinate(coord2[1])));
 }
+
+function getCloseMarkerIdx(routeLineString, progress){
+    let currentCoords = turf.along(routeLineString, turf.lineDistance(routeLineString)* progress).geometry.coordinates;
+    for (let idx = 0; idx < testMarker.length; idx++){
+        if(compareCoords(currentCoords, testMarker[idx])){
+            return idx;
+        }
+    }
+
+    return -1;
+}
+
 function checkIfPosOnMarker(routeLineString, progress){
     let current = turf.along(routeLineString, turf.lineDistance(routeLineString)* progress).geometry.coordinates;
     for (let idx = 0; idx < testMarker.length; idx++){
-        return (compareCoords(current, testMarker[idx]))
+        if (compareCoords(current, testMarker[idx])){
+            return true;
+        }
     }
+
+    return false;
 }
 
 function createStoryMarkers(map, markerCoords){
     for (let idx = 0; idx < markerCoords.length; idx++){
-        new mapboxgl.Marker().setLngLat([markerCoords[idx][0], markerCoords[idx][1]]).addTo(map);
+        if (markerCoords[idx][2]){
+            new mapboxgl.Marker().setLngLat([markerCoords[idx][0], markerCoords[idx][1]]).addTo(map);
+        }        
     }
 }
 

@@ -76,7 +76,7 @@ body {
 .bg-container {
   transform-origin: top right;
   transform: rotate(15deg) translate(0, 0);
-  position: absolute;
+  position: fixed;
   width: 55em;
   height: 130vh;
   background: #2d2d2d;
