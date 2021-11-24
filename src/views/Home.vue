@@ -25,6 +25,7 @@ export default {
 .home {
   position: relative;
   width: 100%;
-  height: 30000vh;
+  height:30000vh;
 }
+
 </style>

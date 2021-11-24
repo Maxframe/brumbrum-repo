@@ -19,6 +19,15 @@ let camCoords;
 let distance = 0;
 let globalMap;
 
+/*
+Parkplatz: 46.89865,8.2449
+Nebelmeer: 8.183884366314318, 46.87901792155232
+Nummerschild verloren: 46.87977, 8.14582
+Mittagessen: 46.89304, 8.1265
+Offroad: 46.91724, 8.11731
+der Fall: 46.98443, 8.06942
+Ende Gelände 47.02399,8.13162
+*/
 const testMarker = [[8.183884366314318, 46.87901792155232]];
 
 export default {
@@ -88,9 +97,8 @@ export default {
             gsap.timeline({
                 scrollTrigger: {
                     trigger: '#map',
-                    pin: true,
                     start: "top top",
-                    end: "+=300000vh",
+                    end: "30000vh",
                     scrub: 0.5,
                     onUpdate: self => {
                         if (self.direction > 0){
@@ -180,4 +188,8 @@ function getCameraPos(routeLineString, distanceTravelled){
 }
 </script>
 
-<style src="mapbox-gl/dist/mapbox-gl.css"></style>
+<style src="mapbox-gl/dist/mapbox-gl.css">
+#map{
+    position: fixed;
+}
+</style>
