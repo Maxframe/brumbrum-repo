@@ -48,7 +48,7 @@ body {
 .bg-container {
     transform-origin: top right;
     transform: rotate(15deg) translate(0, 0);
-    position: absolute;
+    position: fixed;
     width: 55em;
     height: 130vh;
     background: #2d2d2d;;
@@ -57,10 +57,10 @@ body {
 }
 
 .content-container {
-        transform-origin: top right;
-transform: rotate(-15deg) translate(0);
-width: 100%;
-height: 100vh;
+    transform-origin: top right;
+    transform: rotate(-15deg) translate(0);
+    width: 100%;
+    height: 100vh;
 }
 
 #nav {

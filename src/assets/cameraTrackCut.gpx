@@ -2,17 +2,17 @@
 <gpx creator="WTracks"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
 <metadata>
-  <name>cameraTrack</name>
+  <name>cameraTrackCut</name>
   <desc></desc>
   <author><name>WTracks</name></author>
   <link href='https://opoto.github.io/wtracks/'>
     <text>WTracks</text>
     <type>text/html</type>
   </link>
-  <time>2021-11-23T15:36:59.513Z</time>
-  <bounds minlat="46.923538179082" minlon="8.107738494873049" maxlat="46.93266748280369" maxlon="8.130397796630861"/>
+  <time>2021-11-24T13:51:44.861Z</time>
+  <bounds minlat="46.73801496137263" minlon="7.369079589843751" maxlat="47.32117409168587" maxlon="8.819274902343752"/>
 </metadata>
-<trk><name>glaubenbergPatched</name>
+<trk><name>cameraTrack</name>
   <trkseg>
     <trkpt lat="46.898650838469315" lon="8.244904717943173"><ele>471.9</ele></trkpt>
     <trkpt lat="46.89844320755766" lon="8.244214013118478"><ele>474.7</ele></trkpt>
@@ -351,46 +351,5 @@
     <trkpt lat="47.033745" lon="8.144898"><ele>605</ele></trkpt>
     <trkpt lat="47.035256" lon="8.144533"><ele>587.6</ele></trkpt>
     <trkpt lat="47.035651" lon="8.144507"><ele>585.2</ele></trkpt>
-    <trkpt lat="47.035948" lon="8.144882"><ele>584.3</ele></trkpt>
-    <trkpt lat="47.036121" lon="8.149452"><ele>583.5</ele></trkpt>
-    <trkpt lat="47.035764" lon="8.164107"><ele>571.2</ele></trkpt>
-    <trkpt lat="47.036407" lon="8.175768"><ele>500.4</ele></trkpt>
-    <trkpt lat="47.036488" lon="8.175984"><ele>500.6</ele></trkpt>
-    <trkpt lat="47.036745" lon="8.182081"><ele>564.5</ele></trkpt>
-    <trkpt lat="47.037084" lon="8.184398"><ele>563.2</ele></trkpt>
-    <trkpt lat="47.03871" lon="8.19018"><ele>553.4</ele></trkpt>
-    <trkpt lat="47.041199" lon="8.199364"><ele>550.3</ele></trkpt>
-    <trkpt lat="47.041836" lon="8.20189"><ele>548.8</ele></trkpt>
-    <trkpt lat="47.042065" lon="8.20586"><ele>547.2</ele></trkpt>
-    <trkpt lat="47.042023" lon="8.208853"><ele>544.6</ele></trkpt>
-    <trkpt lat="47.042603" lon="8.215794"><ele>540.5</ele></trkpt>
-    <trkpt lat="47.042279" lon="8.21762"><ele>538.9</ele></trkpt>
-    <trkpt lat="47.041887" lon="8.218665"><ele>537.7</ele></trkpt>
-    <trkpt lat="47.042034" lon="8.218883"><ele>536.7</ele></trkpt>
-    <trkpt lat="47.045458" lon="8.220761"><ele>539.2</ele></trkpt>
-    <trkpt lat="47.046518" lon="8.224455"><ele>533.8</ele></trkpt>
-    <trkpt lat="47.053378" lon="8.253964"><ele>520.4</ele></trkpt>
-    <trkpt lat="47.053965" lon="8.254973"><ele>516.9</ele></trkpt>
-    <trkpt lat="47.056911" lon="8.258443"><ele>512.5</ele></trkpt>
-    <trkpt lat="47.066879" lon="8.269502"><ele>506.7</ele></trkpt>
-    <trkpt lat="47.067919" lon="8.270072"><ele>507.5</ele></trkpt>
-    <trkpt lat="47.069139" lon="8.269787"><ele>509</ele></trkpt>
-    <trkpt lat="47.070098" lon="8.269677"><ele>510.2</ele></trkpt>
-    <trkpt lat="47.070809" lon="8.270188"><ele>509</ele></trkpt>
-    <trkpt lat="47.071692" lon="8.27189"><ele>507.2</ele></trkpt>
-    <trkpt lat="47.072005" lon="8.273246"><ele>505.8</ele></trkpt>
-    <trkpt lat="47.071878" lon="8.274383"><ele>504.4</ele></trkpt>
-    <trkpt lat="47.071379" lon="8.275424"><ele>503.6</ele></trkpt>
-    <trkpt lat="47.070829" lon="8.276098"><ele>501.1</ele></trkpt>
-    <trkpt lat="47.069365" lon="8.277912"><ele>498.4</ele></trkpt>
-    <trkpt lat="47.067689" lon="8.279921"><ele>499</ele></trkpt>
-    <trkpt lat="47.066774" lon="8.282419"><ele>494.5</ele></trkpt>
-    <trkpt lat="47.066521" lon="8.283554"><ele>499.6</ele></trkpt>
-    <trkpt lat="47.066823" lon="8.283809"><ele>497.7</ele></trkpt>
-    <trkpt lat="47.067859" lon="8.283888"><ele>491.4</ele></trkpt>
-    <trkpt lat="47.069073" lon="8.281804"><ele>495.3</ele></trkpt>
-    <trkpt lat="47.070742" lon="8.280581"><ele>500.3</ele></trkpt>
-    <trkpt lat="47.070283" lon="8.278923"><ele>500.2</ele></trkpt>
-    <trkpt lat="47.070227" lon="8.278792"><ele>500</ele></trkpt>
   </trkseg>
 </trk></gpx>
