@@ -17,14 +17,14 @@
             <video autoplay muted loop id="myVideo">
                 <source src="../assets/media/testvideo.mp4" type="video/mp4">
             </video>
-            <img src="../assets/media/testimage.jpg" alt="Es Töffle">
+            <!-- <img src="../assets/media/testimage.jpg" alt="Es Töffle"> -->
         </div>
 
         <div class="text-box-wrapper-wrapper">
             <div class="text-box-wrapper">
                 <div class="text-box-container">
-                    <p class="text-box">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Consectetur eveniet accusamus incidunt at provident id explicabo odio iste tenetur eos.</p>
+                    <p class="text-box">
+So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen.</p>
                 </div>
             </div>
         </div>
@@ -42,15 +42,16 @@ body {
     padding: 0;
 }
 
+
 .bg-container {
     transform-origin: top right;
     transform: rotate(15deg) translate(0, 0);
-    position: absolute;
+    position: fixed;
 
 /*--- bg-container Breite (zweiten Wert auskommentieren um Stop zu aktivieren) ---*/
     
     /* Breite für Fahrt*/
-    width: 40vw;
+    width: 50vw;
     /* Breite für Stop*/
     width: 70vw;
     
@@ -122,12 +123,10 @@ video {
 }
 .text-box-wrapper-wrapper {
     position: absolute;
-
-    top: 60vh;
-    left: 30vw;
-    width: 30vw;
-    height: 10vh;
-
+    bottom: 4em;
+    left: 2em;
+    right: 12em;
+    height: 8em;
     overflow: hidden;
     z-index: 10;
 }
@@ -150,16 +149,25 @@ video {
 .text-box-container {
     position: absolute;
     transform-origin: top right;
-    transform: rotate(-15deg) translate(0);
+    transform: rotate(-15deg) translateY(0.8em);
     width: 90%;
-    height: 100%;
+    height: 8em;
 
 }
 
 p.text-box {
-    margin: 0;
-    padding: 0;
+    margin: 1.2em 1em 1.2em 3em;
     color: white;
+    vertical-align: middle;
+}
+
+.text-box::before {
+    content: ' ';
+    position: absolute;
+    width: 0.2em;
+    height: 6em;
+    background-color: white;
+    left: 2em;
 }
 
 
@@ -180,8 +188,9 @@ p.text-box {
 }
 
 #map {
-    float: right;
     height: 100vh;
+    position: fixed;
+    right: 0;
 
     /*--- Map Breite (zweiten Wert auskommentieren um Stop zu aktivieren) ---*/
     
