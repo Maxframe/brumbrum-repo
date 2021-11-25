@@ -5,13 +5,22 @@
 <div class="bg-container">
     <div class="content-container">
         <div id="nav">
-            <div class="logo"><router-link to="/">
-                <img src="../assets/media/logo.png" alt="Logo">
-            </router-link></div>
+            <div class="logo">
+                <router-link to="/">
+                    <img src="../assets/media/logo.png" alt="Logo">
+                <div class="page-title">
+                    <span class="title-1">BRUM BRUM<br></span>
+                    <span class="title-2">TOURS<br></span>
+                    <span class="title-3">Glaubenberg</span>
+                </div>
+                </router-link>
+            </div>
+            
             <ul>
                 <li> <router-link to="/about">About</router-link></li>
             </ul>
         </div>
+    
         <div class="media-container">
             <div class="media-overlay"></div>
             <video autoplay muted loop id="myVideo">
@@ -23,14 +32,14 @@
         <div class="text-box-wrapper-wrapper">
             <div class="text-box-wrapper">
                 <div class="text-box-container">
-                    <p class="text-box">
-So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen.</p>
+                    <h1 class="text-box-title">Title</h1>
+                    <p class="text-box-text">
+                        So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen. So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen.</p>
                 </div>
             </div>
         </div>
 
     </div>
-
 </div>
 </div>
 </template>
@@ -71,7 +80,7 @@ body {
 }
 
 #nav {
-    padding: 30px;
+    padding: 2rem;
     z-index: 10;
     position: relative;
 }
@@ -82,14 +91,42 @@ body {
     text-decoration: none;
 }
 
-#nav a.router-link-exact-active {
-    color: #f79e1a;
+
+#nav .logo a {
+position: absolute;
+display: flex;
 }
 
-#nav .logo {
-position: absolute;
-width: auto;
-height: 160px;
+#nav .logo img {
+    width: auto;
+    height: 10rem;
+}
+
+.page-title {
+    display: inline;
+    padding: 0.3rem 0 0 1rem;
+}
+
+.title-1 {
+    font-family: teko, sans-serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    letter-spacing: 0.15rem;
+}
+
+.title-2 {
+    font-family: teko, sans-serif;
+    font-size: 3.55rem;
+    font-weight: 500;
+    letter-spacing: 0.12rem;
+    line-height: 2.5rem;
+}
+
+.title-3 {
+    font-family: flood-std, sans-serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+    line-height: 2rem;
 }
 
 #nav ul {
@@ -100,7 +137,7 @@ height: 160px;
 }
 
 #nav ul li {
-    padding: 0.3em 2em;   
+    padding: 0.3rem 2rem;   
 }
 
 .media-container {
@@ -123,10 +160,10 @@ video {
 }
 .text-box-wrapper-wrapper {
     position: absolute;
-    bottom: 4em;
-    left: 2em;
-    right: 12em;
-    height: 8em;
+    bottom: 4rem;
+    left: 2rem;
+    right: 15rem;
+    height: 8rem;
     overflow: hidden;
     z-index: 10;
 }
@@ -135,7 +172,7 @@ video {
     transform: rotate(15deg) translate(0, 0);
     position: absolute;
     width: 100%;
-    height: 300%;
+    height: 500%;
     background: #0000007c;
 }
 
@@ -149,14 +186,21 @@ video {
 .text-box-container {
     position: absolute;
     transform-origin: top right;
-    transform: rotate(-15deg) translateY(0.8em);
+    transform: rotate(-15deg) translateY(0.8rem);
     width: 90%;
-    height: 8em;
+    height: 8rem;
 
 }
 
-p.text-box {
-    margin: 1.2em 1em 1.2em 3em;
+h1.text-box-title {
+
+    margin: 1.2rem 1rem 0 3rem;
+    color: #F47525;
+    vertical-align: middle;
+}
+
+p.text-box-text {
+    margin: -0.3rem 1rem 1.2rem 3rem;
     color: white;
     vertical-align: middle;
 }
@@ -164,10 +208,10 @@ p.text-box {
 .text-box::before {
     content: ' ';
     position: absolute;
-    width: 0.2em;
-    height: 6em;
+    width: 0.2rem;
+    height: 6rem;
     background-color: white;
-    left: 2em;
+    left: 2rem;
 }
 
 
@@ -195,9 +239,9 @@ p.text-box {
     /*--- Map Breite (zweiten Wert auskommentieren um Stop zu aktivieren) ---*/
     
     /* Breite für Fahrt*/
-    width: calc(60vw + 30em);
+    width: calc(60vw + 30rem);
     /* Breite für Stop*/
-    width: calc(30vw + 20em);
+    width: calc(30vw + 20rem);
 
     transition: ease-in-out 1s;
   } 
