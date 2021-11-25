@@ -10,8 +10,9 @@ import getCoordinatesFromGpxFile from "@/modules/gpx-utilities.js";
 import * as turf from '@turf/turf';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { createClient }  from 'contentful';
 
-const CAMERA_ALTITUDE = 1300;
+const CAMERA_ALTITUDE = 3300;
 const STEP_LENGTH = 0.0003;
 const CAMERA_DISTANCE_BACK = 50*STEP_LENGTH;
 let previousMarkerIndex = -1;
@@ -20,28 +21,37 @@ let camCoords;
 let distance = 0;
 let globalMap;
 
-/*
-Parkplatz: 46.89865,8.2449
-Nebelmeer: 8.183884366314318, 46.87901792155232
-Nummerschild verloren: 46.87977, 8.14582
-Mittagessen: 46.89304, 8.1265
-Offroad: 46.91724, 8.11731
-der Fall: 46.98443, 8.06942
-Ende Gelände 47.02399,8.13162
-*/
-const testMarker = [
-    [8.2449, 46.89865, true],
-    [8.183789855919457, 46.878998082489225, true],
-    [8.18279849017183, 46.87857932727404, false],
-    [8.17897355737293, 46.87974564465177, false],
-    [8.14582, 46.87977, true],
-    [8.1265, 46.89304, true]];
+let markers = [];
 
 export default {
     name: 'Map',
 
     mounted: async function () {
         gsap.registerPlugin(ScrollTrigger);
+
+        let client = createClient({
+            space: "jfbiriazkehh",
+            accessToken: "PJ2rc9wfcHt-OqFmTWgRF5usmXx7_8u3qAJ2cbWDdbI",
+        });
+        await client
+            .getEntries({
+                content_type: "brumbrumRoute",
+            })
+            .then((entries) => {
+                for(let searchedEntry = 1; searchedEntry <= entries.items.length; searchedEntry++){
+                    for (const entry of entries.items){
+                        if (entry.fields.nummer == searchedEntry){
+                            for(let markerIdx = 0; markerIdx < entry.fields.markers.length; markerIdx++){
+                                markers.push(entry.fields.markers[markerIdx].fields);
+                            }
+                    
+                            break;
+                        }
+                    }
+                }
+            });
+
+
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2lhbmdpIiwiYSI6ImNrdnRqbGM3ejBzazQyb2x5ZHMwbm5uc2oifQ.VGFNc1MhMDi_q9Uh12oCYg';
 
         let map = new mapboxgl.Map({
@@ -86,11 +96,12 @@ export default {
             camCoords = turf.cleanCoords(turf.lineString(camRaw));
             globalMap = map;
             setCameraPosition(map, routeCoords, camCoords, distance);
+
+            createStoryMarkers(map, markers);
             
             let positionMarker = new mapboxgl.Marker();
             updateMarker(positionMarker, routeCoords, distance);
             positionMarker.addTo(map);
-            createStoryMarkers(map, testMarker);
 
             gsap.timeline({
                 scrollTrigger: {
@@ -165,8 +176,8 @@ function compareCoords(coord1, coord2){
 
 function getCloseMarkerIdx(routeLineString, progress){
     let currentCoords = turf.along(routeLineString, turf.lineDistance(routeLineString)* progress).geometry.coordinates;
-    for (let idx = 0; idx < testMarker.length; idx++){
-        if(compareCoords(currentCoords, testMarker[idx])){
+    for (let idx = 0; idx < markers.length; idx++){
+        if(compareCoords(currentCoords, [markers[idx].location.lon, markers[idx].location.lat])){
             return idx;
         }
     }
@@ -176,8 +187,8 @@ function getCloseMarkerIdx(routeLineString, progress){
 
 function checkIfPosOnMarker(routeLineString, progress){
     let current = turf.along(routeLineString, turf.lineDistance(routeLineString)* progress).geometry.coordinates;
-    for (let idx = 0; idx < testMarker.length; idx++){
-        if (compareCoords(current, testMarker[idx])){
+    for (let idx = 0; idx < markers.length; idx++){
+        if (compareCoords(current, [markers[idx].location.lon, markers[idx].location.lat])){
             return true;
         }
     }
@@ -185,10 +196,10 @@ function checkIfPosOnMarker(routeLineString, progress){
     return false;
 }
 
-function createStoryMarkers(map, markerCoords){
-    for (let idx = 0; idx < markerCoords.length; idx++){
-        if (markerCoords[idx][2]){
-            new mapboxgl.Marker().setLngLat([markerCoords[idx][0], markerCoords[idx][1]]).addTo(map);
+function createStoryMarkers(map, markerObjects){
+    for (let idx = 0; idx < markerObjects.length; idx++){
+        if(markerObjects[idx].visible){
+            new mapboxgl.Marker().setLngLat([markerObjects[idx].location.lon, markerObjects[idx].location.lat]).addTo(map);
         }        
     }
 }
