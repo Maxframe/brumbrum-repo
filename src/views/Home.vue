@@ -1,12 +1,11 @@
 <template>
   <div class="home">
-    <Map></Map>
+    <Map @changeChapter="changeChapter($event)"></Map>
 
     <ul id="array-rendering">
       <li v-for="c in contents" :key="c.fields.nummer">
         <ContentPage
           class="contentPage"
-          id="c.fields.number"
           :number="c.fields.nummer"
           :title="c.fields.titel"
           :location="c.fields.location"
@@ -25,8 +24,14 @@ import Map from "@/components/Map.vue";
 // import Testlayout from "@/components/Testlayout.vue";
 import ContentPage from "@/components/ContentPage.vue";
 import { createClient } from "contentful";
-
 export default {
+  methods: {
+    changeChapter(chapterIdx) {
+      let chapterNummer = chapterIdx + 1;
+      let activeChapter = document.getElementById(chapterNummer);
+      activeChapter.style.display = "block";
+    },
+  },
   name: "Home",
   components: {
     Map,
@@ -61,6 +66,6 @@ export default {
   height: 30000vh;
 }
 .contentPage {
-  /* display: none; */
+  display: none;
 }
 </style>

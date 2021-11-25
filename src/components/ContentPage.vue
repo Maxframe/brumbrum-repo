@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-container">
+  <div class="bg-container" :id="number">
     <div class="content-container">
       <div id="nav">
         <div class="logo">
