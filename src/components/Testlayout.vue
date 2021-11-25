@@ -30,12 +30,13 @@
         </div>
 
         <div class="text-box-wrapper-wrapper">
-            <div class="text-box-wrapper">
                 <div class="text-box-container">
                     <h1 class="text-box-title">Title</h1>
                     <p class="text-box-text">
-                        So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen. So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen.</p>
+                        So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen. 
+                    </p>
                 </div>
+            <div class="text-box-wrapper">
             </div>
         </div>
 
@@ -66,6 +67,7 @@ body {
     
     height: 200vh;
     background: #2d2d2d;;
+    box-shadow: 0px 0px 1rem black;
     overflow: hidden;
     z-index: 5;
     transition: ease-in-out 1s;
@@ -145,6 +147,11 @@ display: flex;
     bottom: 0;
     width: 100%;
     height: 100vh;
+    transition: opacity 0.4s ease-in-out, display 1s ease-in-out 0.4s;
+
+    /* transition  */
+    opacity: 1;
+
 }
 
 img {
@@ -176,25 +183,17 @@ video {
     background: #0000007c;
 }
 
-.content-container {
-    transform-origin: top right;
-    transform: rotate(-15deg) translate(0);
-    width: 100%;
-    height: 100vh;
-}
-
 .text-box-container {
     position: absolute;
-    transform-origin: top right;
-    transform: rotate(-15deg) translateY(0.8rem);
+    bottom: 0;
     width: 90%;
     height: 8rem;
-
+    z-index: inherit;
 }
 
 h1.text-box-title {
 
-    margin: 1.2rem 1rem 0 3rem;
+    margin: 1rem 1rem 0 3rem;
     color: #F47525;
     vertical-align: middle;
 }
@@ -205,12 +204,13 @@ p.text-box-text {
     vertical-align: middle;
 }
 
-.text-box::before {
+.text-box-container::before {
     content: ' ';
     position: absolute;
-    width: 0.2rem;
+    width: 0.3rem;
     height: 6rem;
     background-color: white;
+    top: 1rem;
     left: 2rem;
 }
 
