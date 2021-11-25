@@ -31,9 +31,9 @@
 
         <div class="text-box-wrapper-wrapper">
                 <div class="text-box-container">
-                    <h1 class="text-box-title">Title</h1>
+                    <h1 class="text-box-title"><!-- Contentful Title --></h1>
                     <p class="text-box-text">
-                        So machten auch wir uns wieder auf den Weg um die letzten Sonnenstrahlen einzufangen. 
+                       <!-- Contentful Text --> 
                     </p>
                 </div>
             <div class="text-box-wrapper">
