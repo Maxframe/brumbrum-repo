@@ -115,4 +115,10 @@ body {
   height: 100vh;
   width: 100vw;
 }
+
+.media-container {
+  position: absolute;
+  width: 600px;
+  height: 100vh;
+}
 </style>

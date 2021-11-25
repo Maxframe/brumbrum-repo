@@ -2,11 +2,7 @@
   <div class="content">
     <h1>{{ number + " " + title }}</h1>
     <li v-for="i in images" :key="i.fields.file.url">
-      <img
-        :src="i.fields.file.url"
-        :style="{ height: i.fields.file.details.image.height * 0.1 + 'px' }"
-        :alt="i.fields.description"
-      />
+      <img id="img" :src="i.fields.file.url" :alt="i.fields.description" />
       <div id="imgText">{{ i.fields.description }}</div>
     </li>
   </div>
@@ -39,5 +35,10 @@ export default {
 }
 #imgText {
   font-size: 20px;
+}
+#img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 </style>
