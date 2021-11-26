@@ -42,6 +42,7 @@ export default {
       for (let idx = 0; idx < allMedias.length; idx++){
         // allMedias[idx].style.display = "none";
         allMedias[idx].style.opacity = "0"
+        
       }
       let activeMedia = document.getElementById("section"+data.chapterIndex+"bild"+data.mediaIndex);
       if (activeMedia == null){

@@ -78,7 +78,7 @@ body {
     box-shadow: 0px 0px 1rem black;
     overflow: hidden;
     z-index: 5;
-    transition: ease-in-out 1s;
+    transition: 0.4s ease-in-out;
 }
 
 .content-container {
@@ -177,6 +177,7 @@ video {
     height: 8rem;
     overflow: hidden;
     z-index: 10;
+    transition: 0.4s ease-in-out 0.3s;
 }
 .text-box-wrapper {
     transform-origin: top right;
@@ -242,6 +243,6 @@ p.text-box-text {
     /* Breite für Stop*/
     width: calc(30vw + 20rem);
 
-    transition: ease-in-out 1s;
+    transition: 0.4s ease-in-out 0.5s ;
   } 
 </style>
