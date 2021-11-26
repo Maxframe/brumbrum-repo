@@ -67,11 +67,11 @@ export default {
       });
 
     mapboxgl.accessToken =
-      "pk.eyJ1Ijoic2lhbmdpIiwiYSI6ImNrdnRqbGM3ejBzazQyb2x5ZHMwbm5uc2oifQ.VGFNc1MhMDi_q9Uh12oCYg";
+      "pk.eyJ1IjoibWF4ZnJhbWUiLCJhIjoiY2t2dGkzbm8zYmN3bDMwczdsdnpzb292biJ9.UKB1PN1s7iqAZqNkQxtS_Q";
 
     let map = new mapboxgl.Map({
       container: this.$refs.container,
-      style: "mapbox://styles/siangi/ckw65hmof0on415ppqndfa1i2",
+      style: "mapbox://styles/maxframe/ckweyo4um0oq314ph5895965i",
       bearing: 90,
       center: [8.244904717943173, 46.898650838469315],
       zoom: 16,
