@@ -12,10 +12,12 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { createClient } from "contentful";
 
-const CAMERA_ALTITUDE = 3300;
+const CAMERA_ALTITUDE = 1500;
 const STEP_LENGTH = 0.0003;
 const CAMERA_DISTANCE_BACK = 50 * STEP_LENGTH;
 let previousMarkerIndex = -1;
+let previousChapterIndex = 1;
+let mediaElementIndex = 0;
 let routeCoords;
 let camCoords;
 let distance = 0;
@@ -28,9 +30,13 @@ export default {
   name: "Map",
   methods: {
     changeChapter() {
-      this.$emit("changeChapter", previousMarkerIndex);
+      this.$emit("changeChapter", previousChapterIndex);
       console.log("change chapter func");
     },
+    changeImage() {
+      let data = {chapterIndex: previousChapterIndex, mediaIndex: mediaElementIndex}
+      this.$emit("changeImage", data);
+    }
   },
   mounted: async function () {
     componentThis = this;
@@ -114,9 +120,12 @@ export default {
 
       createStoryMarkers(map, markers);
 
-      let positionMarker = new mapboxgl.Marker();
+      const el = document.createElement('div');
+      el.className = 'motomarker';
+      let positionMarker = new mapboxgl.Marker(el);
       updateMarker(positionMarker, routeCoords, distance);
       positionMarker.addTo(map);
+      handleMarkerHit(routeCoords, distance);
 
       gsap.timeline({
         scrollTrigger: {
@@ -147,33 +156,35 @@ function update(scrollTrigger, positionMarker) {
 
 function handleMarkerHit(routeLineString, progress) {
   let idx = getCloseMarkerIdx(routeLineString, progress);
+  let newSectionStarted = markers[idx].newSectionStarted;
   if (idx < 0) {
     console.error("close marker not found");
     return;
   }
-
-  console.log("new Index:" + idx + "previous index" + previousMarkerIndex);
-  if (previousMarkerIndex < 0) {
-    // handle first scroll
-    console.log("first Marker");
-    previousMarkerIndex = idx;
-    return;
-  }
-
-  if (idx > previousMarkerIndex) {
-    // next Image, or Video
-    previousMarkerIndex = idx;
-    console.log("next Marker");
-    console.log(componentThis);
+  
+  
+  if(newSectionStarted){
+    if (previousMarkerIndex < 0){
+      previousChapterIndex = 1;
+    } else if (idx > previousMarkerIndex) {
+      previousChapterIndex++;
+    } else if (idx < previousMarkerIndex) {
+      previousChapterIndex--;
+    }
+    mediaElementIndex = 0;
     componentThis.changeChapter();
-    return;
-  }
-
-  if (idx < previousMarkerIndex) {
+    componentThis.changeImage();
     previousMarkerIndex = idx;
-    console.log("previous Marker");
-    return;
-    // previous Image
+  } else {
+    if (previousMarkerIndex < 0){
+      mediaElementIndex = 0;
+    } else if (idx > previousMarkerIndex) {
+      mediaElementIndex++;
+    } else if (idx < previousMarkerIndex) {
+      mediaElementIndex--;
+    }
+    previousMarkerIndex = idx;
+    componentThis.changeImage();
   }
 }
 
@@ -230,7 +241,9 @@ function checkIfPosOnMarker(routeLineString, progress) {
 function createStoryMarkers(map, markerObjects) {
   for (let idx = 0; idx < markerObjects.length; idx++) {
     if (markerObjects[idx].visible) {
-      new mapboxgl.Marker()
+      const el = document.createElement('div');
+      el.className = 'storymarker'
+      new mapboxgl.Marker(el)
         .setLngLat([
           markerObjects[idx].location.lon,
           markerObjects[idx].location.lat,
@@ -304,4 +317,6 @@ function getCameraPos(routeLineString, distanceTravelled) {
 #map {
   position: fixed;
 }
+
+
 </style>

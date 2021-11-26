@@ -1,20 +1,18 @@
 <template>
   <div class="home">
-    <Map @changeChapter="changeChapter($event)"></Map>
+    <Map @changeChapter="changeChapter($event)" @changeImage="changeImage($event)"></Map>
 
-    <ul id="array-rendering">
-      <li v-for="c in contents" :key="c.fields.nummer">
-        <ContentPage
-          class="contentPage"
-          :number="c.fields.nummer"
-          :title="c.fields.titel"
-          :location="c.fields.location"
-          :images="c.fields.bilder"
-          :videos="c.fields.videos1"
-          :goProVideos="c.fields.goProVideos"
-        />
-      </li>
-    </ul>
+    <div v-for="c in contents" :key="c.fields.nummer">
+      <ContentPage
+        class="contentPageWrapper"
+        :number="c.fields.nummer"
+        :title="c.fields.titel"
+        :location="c.fields.location"
+        :images="c.fields.bilder"
+        :videos="c.fields.videos1"
+        :goProVideos="c.fields.goProVideos"
+      />
+    </div>
   </div>
 </template>
 
@@ -27,10 +25,25 @@ import { createClient } from "contentful";
 export default {
   methods: {
     changeChapter(chapterIdx) {
-      let chapterNummer = chapterIdx + 1;
+      let chapterNummer = chapterIdx;
+      let allChapters = document.getElementsByClassName("contentPageWrapper");
+      for (let idx = 0; idx < allChapters.length; idx++){
+        allChapters[idx].style.display = "none";
+      }
       let activeChapter = document.getElementById(chapterNummer);
       activeChapter.style.display = "block";
     },
+    changeImage(data){
+      console.log("entered changeimage in Home")
+      let activeChapter = document.getElementById(data.chapterIndex);
+      let allMedias = activeChapter.getElementsByClassName("media-container");
+      for (let idx = 0; idx < allMedias.length; idx++){
+        allMedias[idx].style.display = "none";
+      }
+      let activeMedia = document.getElementById("section"+data.chapterIndex+"bild"+data.mediaIndex);
+      activeMedia.style.display = "block";
+      console.log(activeMedia);
+    }
   },
   name: "Home",
   components: {
@@ -65,7 +78,25 @@ export default {
   width: 100%;
   height: 30000vh;
 }
-.contentPage {
+.contentPageWrapper {
   display: none;
+}
+
+.mediaContainer{
+  display: none;
+}
+
+.storymarker{
+  background-image: url(../assets/media/marker.png);
+  background-size: cover;
+  width:3rem;
+  height: 3rem;
+}
+
+.motomarker{
+  background-image: url(../assets/media/LogoMotocycle.png);
+  background-size: cover;
+  width:3rem;
+  height: 5rem;
 }
 </style>
