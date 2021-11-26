@@ -107,7 +107,7 @@ export default {
           "line-cap": "round",
         },
         paint: {
-          "line-color": "#e1e419",
+          "line-color": "#F47525",
           "line-width": 8,
         },
       });

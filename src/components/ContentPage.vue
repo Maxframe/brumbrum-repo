@@ -24,12 +24,11 @@
         <!-- <video src="videos[0].fields.file.url" /> -->
             <img :src="i.fields.file.url" />
           <div class="text-box-wrapper-wrapper">
-            <div class="text-box-wrapper">
               <div class="text-box-container">
                 <h1 class="text-box-title">{{ title }}</h1>
                 <p class="text-box-text">{{ i.fields.description }}</p>
               </div>
-            </div>
+            <div class="text-box-wrapper"></div>
           </div>
         </div>                
       </div>
@@ -153,10 +152,11 @@ display: flex;
     bottom: 0;
     width: 100%;
     height: 100vh;
-    transition: opacity 0.4s ease-in-out, display 1s ease-in-out 0.4s;
+    transition: opacity 0.4s ease-in-out, display 1s ease-in-out 1s;
 
     /* transition  */
-    opacity: 1;
+    opacity: 0;
+    display: none;
 
 }
 
@@ -190,28 +190,21 @@ video {
 }
 
 .text-box-container {
-    transform-origin: top right;
-    transform: rotate(-15deg) translate(0);
     position: absolute;
-    top: 0px;
+    bottom: 0;
     width: 90%;
     height: 8rem;
     z-index: inherit;
 }
 
 h1.text-box-title {
-    top: 0px;
-    left: 0px;
-    display: inline;
-    /* margin: 1rem 1rem 0 3rem; */
+    margin: 1rem 1rem 0 3rem;
     color: #F47525;
-    vertical-align: middle;
 }
 
 p.text-box-text {
     margin: -0.3rem 1rem 1.2rem 3rem;
     color: white;
-    vertical-align: middle;
 }
 
 .text-box-container::before {
