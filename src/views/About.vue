@@ -59,15 +59,29 @@ height: 10rem;
 
 
 .impressum-names {
-  display: none;
   position: absolute;
   font-family: teko, sans-serif;
   color: #F47525;
   font-size: 2rem;
   text-transform: uppercase;
+  z-index: 20;
 }
 
+.names1 {
+  transform: translate(13vw, -6vh);
+}
 
+.names2 {
+  transform: translate(27vw, -4vh);
+}
+
+.names3 {
+  transform: translate(71vw, -6vh);
+}
+
+.names4 {
+  transform: translate(83vw, -4vh);
+}
 .impressum-img {
   position: absolute;
   top: 30%;
