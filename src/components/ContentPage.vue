@@ -17,11 +17,13 @@
           <li><router-link to="/about">About</router-link></li>
         </ul>
       </div>
+      <div class="media-container" :id="`section${ number}bild${ 0 }`">
+        <div class="media-overlay"></div>
+        <video :src="goProVideos" autoplay muted loop />
+      </div>
       <div class="contentPage" v-for="(i, idx) in images" :key="i.fields.file.url">
-        <div class="media-container" :id="`section${ number }bild${ idx }`">
+        <div class="media-container" :id="`section${number}bild${ idx  + 1 }`">
           <div class="media-overlay"></div>
-        
-        <!-- <video src="videos[0].fields.file.url" /> -->
             <img :src="i.fields.file.url" />
           <div class="text-box-wrapper-wrapper">
               <div class="text-box-container">
@@ -48,6 +50,7 @@ export default {
     text: String,
     location: String,
     images: Array,
+    goProVideos: String
   },
 };
 </script>
@@ -153,11 +156,6 @@ display: flex;
     width: 100%;
     height: 100vh;
     transition: opacity 0.4s ease-in-out, display 1s ease-in-out 1s;
-
-    /* transition  */
-    opacity: 0;
-    display: none;
-
 }
 
 img {    

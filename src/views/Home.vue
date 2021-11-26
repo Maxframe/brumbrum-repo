@@ -10,7 +10,7 @@
         :location="c.fields.location"
         :images="c.fields.bilder"
         :videos="c.fields.videos1"
-        :goProVideos="c.fields.goProVideos"
+        :goProVideos="c.fields.goProVideos?.fields.file.url"
       />
     </div>
   </div>
@@ -28,20 +28,27 @@ export default {
       let chapterNummer = chapterIdx;
       let allChapters = document.getElementsByClassName("contentPageWrapper");
       for (let idx = 0; idx < allChapters.length; idx++){
-        allChapters[idx].style.display = "none";
+        // allChapters[idx].style.display = "none";
+        allChapters[idx].style.opacity = "0"
       }
       let activeChapter = document.getElementById(chapterNummer);
-      activeChapter.style.display = "block";
+      // activeChapter.style.display = "block";
+      activeChapter.style.opacity = "1"
     },
     changeImage(data){
       console.log("entered changeimage in Home")
       let activeChapter = document.getElementById(data.chapterIndex);
       let allMedias = activeChapter.getElementsByClassName("media-container");
       for (let idx = 0; idx < allMedias.length; idx++){
-        allMedias[idx].style.display = "none";
+        // allMedias[idx].style.display = "none";
+        allMedias[idx].style.opacity = "0"
       }
       let activeMedia = document.getElementById("section"+data.chapterIndex+"bild"+data.mediaIndex);
-      activeMedia.style.display = "block";
+      if (activeMedia == null){
+        activeMedia = document.getElementById("section"+data.chapterIndex+"bild"+data.mediaIndex + 1);
+      }
+      // activeMedia.style.display = "block";
+      activeMedia.style.opacity = "1"
       console.log(activeMedia);
     }
   },
@@ -79,11 +86,11 @@ export default {
   height: 30000vh;
 }
 .contentPageWrapper {
-  display: none;
+  opacity: 0;
 }
 
 .mediaContainer{
-  display: none;
+  opacity: 0;
 }
 
 .storymarker{
